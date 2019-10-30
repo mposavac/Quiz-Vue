@@ -1,18 +1,105 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div>QUIZ LOGO</div>
+    <form @submit.prevent="submit" class="form">
+      <Selection :disabled="isLoading" :options="time" v-model="chosenTime" />
+      <Selection :disabled="isLoading" :options="categories" v-model="chosenCategory" />
+      <Selection :disabled="isLoading" :options="difficulty" v-model="chosenDifficulty" />
+      <button :disabled="isLoading" @click="randomPick">RANDOM</button>
+      <button :disabled="isLoading" type="submit">PLAY</button>
+    </form>
+    <Spinner v-if="isLoading" />
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import Selection from "@/components/Selection.vue";
+import Spinner from "@/components/Spinner.vue";
+import { mapActions, mapState } from "vuex";
 export default {
-  name: 'home',
+  name: "home",
   components: {
-    HelloWorld
+    Selection,
+    Spinner
+  },
+  data() {
+    return {
+      time: [
+        { name: 60, value: 60 },
+        { name: 90, value: 90 },
+        { name: 120, value: 120 },
+        { name: 180, value: 180 }
+      ],
+      categories: [
+        { name: "Any Category", value: "" },
+        { name: "General Knowledge", value: 9 },
+        { name: "Books", value: 10 },
+        { name: "Film", value: 11 },
+        { name: "Music", value: 12 },
+        { name: "Musicals & Theatres", value: 13 },
+        { name: "Television", value: 14 },
+        { name: "Video Games", value: 15 },
+        { name: "Board Games", value: 16 },
+        { name: "Science & Nature", value: 17 },
+        { name: "Science: Computers", value: 18 },
+        { name: "Science: Mathematics", value: 19 },
+        { name: "Mythology", value: 20 },
+        { name: "Sports", value: 21 },
+        { name: "Geography", value: 22 },
+        { name: "History", value: 23 },
+        { name: "Politics", value: 24 },
+        { name: "Art", value: 25 },
+        { name: "Celebrities", value: 26 },
+        { name: "Animals", value: 27 },
+        { name: "Vehicles", value: 28 },
+        { name: "Comics", value: 29 },
+        { name: "Gadgets", value: 30 },
+        { name: "Japanese Anime & Manga", value: 31 },
+        { name: "Cartoon & Animations", value: 32 }
+      ],
+      difficulty: [
+        { name: "Any Difficulty", value: "" },
+        { name: "Easy", value: "easy" },
+        { name: "Medium", value: "medium" },
+        { name: "Hard", value: "hard" }
+      ],
+      chosenTime: 60,
+      chosenCategory: "",
+      chosenDifficulty: "",
+      isLoading: false
+    };
+  },
+  methods: {
+    ...mapActions(["addQuestions"]),
+    async submit() {
+      this.isLoading = true;
+      await fetch(
+        `https://opentdb.com/api.php?amount=20&${
+          this.chosenCategory === "" ? "" : "category=" + this.chosenCategory
+        }&${
+          this.chosenDifficulty === ""
+            ? ""
+            : "difficulty=" + this.chosenDifficultys
+        }`
+      )
+        .then(res => res.json())
+        .then(data => this.addQuestions(data.results));
+      setTimeout(() => {
+        this.$router.push({
+          name: "quiz",
+          params: { time: this.chosenTime }
+        });
+      }, 1000);
+    },
+    randomPick() {
+      this.chosenTime = this.time[
+        Math.floor(Math.random() * this.time.length)
+      ].value;
+      this.chosenCategory = this.categories[
+        Math.floor(Math.random() * this.categories.length)
+      ].value;
+      this.chosenDifficulty = "";
+    }
   }
-}
+};
 </script>
