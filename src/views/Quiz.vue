@@ -1,17 +1,27 @@
 <template>
   <main>
     <div class="nav">
-      <router-link to="/">Home</router-link>
-      <p>{{timer}}</p>
-      <p>{{correctAnswers}} / {{totalQuestions}}</p>
-      <p>{{points}} points</p>
-      <div class="lives">
-        <p v-for="life in lifes" :key="life">X</p>
+      <router-link class="exit" to="/">
+        <i class="fas fa-sign-out-alt" />Exit
+      </router-link>
+      <p class="timer">{{formatTimer()}}</p>
+      <p class="num-of-questions">{{correctAnswers}} / {{totalQuestions}}</p>
+      <p class="points">{{points}} points</p>
+      <div class="lifes">
+        <div v-for="life in lifes" :key="life">
+          <i class="full-heart far fa-heart" />
+        </div>
+        <div v-for="wrong in wrongAnswers" :key="wrong*6">
+          <i class="lost-heart far fa-heart" />
+        </div>
       </div>
+      <router-link to="/">
+        <img src="../assets/logo.png" draggable="false" alt="logoImg" />
+      </router-link>
+      <div class="timer-bar" :style="{width: ((timer/time)*100 )+'%'}"></div>
     </div>
-    <div>
-      <h1>QUIZ LOGO smaller</h1>
-      <button v-if="!started && timer>0" @click="startTimer">START</button>
+    <div v-if="questions.length>0" class="main">
+      <p class="start" v-if="!started && timer>0" @click="startTimer">START</p>
       <QuestionBox
         v-else-if="started && timer>0 && lifes>0"
         v-show="timer!==0"
@@ -19,8 +29,9 @@
         :next="next"
         :statistics="statistics"
       />
-      <div v-else>GAME OVER</div>
+      <p class="game-over" v-else>GAME OVER</p>
     </div>
+    <p v-else class="game-over">Plsese choose difrent options</p>
   </main>
 </template>
 
@@ -42,17 +53,24 @@ export default Vue.extend({
       index: 0,
       lifes: 3,
       correctAnswers: 0,
+      wrongAnswers: 0,
       totalQuestions: 0
     };
   },
   computed: {
     ...mapState(["questions", "points"])
   },
+  watch: {
+    wrongAnswers: {
+      immediate: true,
+      handler() {
+        if (this.wrongAnswers === 3) this.stopTimer();
+      }
+    }
+  },
   methods: {
     next(param?: boolean) {
       this.index++;
-      console.log("NEXT:", param);
-      if (param === true) this.statistics(false);
     },
     startTimer() {
       this.started = true;
@@ -68,7 +86,18 @@ export default Vue.extend({
     statistics(correctAnswer: boolean) {
       this.totalQuestions++;
       if (correctAnswer) this.correctAnswers++;
-      else this.lifes--;
+      else {
+        this.lifes--;
+        this.wrongAnswers++;
+      }
+    },
+    formatTimer() {
+      if (this.timer >= 60)
+        return `${Math.floor(this.timer / 60)}:${
+          this.timer % 60 < 10 ? `0${this.timer % 60}` : this.timer % 60
+        }`;
+      else if (this.timer === 0) return "0:00";
+      return "0:" + this.timer;
     }
   }
 });

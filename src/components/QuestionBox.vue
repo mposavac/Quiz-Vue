@@ -1,19 +1,21 @@
 <template>
   <div>
-    <div>
-      <h4>{{question.category}}</h4>
-      <h3>{{question.question}}</h3>
+    <div class="question-box">
+      <h4 class="category">{{question.category}}</h4>
+      <h3 class="question">{{question.question}}</h3>
+      <p class="timer">{{timer}}</p>
       <div class="answers-container">
-        <p>{{timer}}</p>
         <div
           @click="checkAnswer(index)"
           :class="answerClass(index)"
           v-for="(answer, index) in randomizedAnswers"
           :key="index"
-        >{{answer}}</div>
+        >
+          <p>{{answer}}</p>
+        </div>
       </div>
+      <button :class="answered ? 'btn' : 'btn disabled'" @click="next" :disabled="!answered">Next</button>
     </div>
-    <button @click="next" :disabled="!answered">Next</button>
   </div>
 </template>
 
@@ -32,6 +34,7 @@ export default Vue.extend({
     return {
       randomizedAnswers: [],
       correctIndex: null,
+      selectedIndex: null,
       answered: false,
       timer: 15
     };
@@ -49,7 +52,6 @@ export default Vue.extend({
       }
     }
   },
-  mounted() {},
   computed: {
     answers() {
       let answers: Array<string> = [...this.question.incorrect_answers];
@@ -63,19 +65,21 @@ export default Vue.extend({
   methods: {
     ...mapActions(["addPoints"]),
     answerClass(index: number): string {
-      return "answer";
+      if (this.answered && this.correctIndex === index) return "correct";
+      else if (this.answered && this.selectedIndex === index)
+        return "incorrect";
+      return "";
     },
     randomize() {
-      console.log(this.answers);
       this.randomizedAnswers = _.shuffle(this.answers);
       this.correctIndex = this.randomizedAnswers.indexOf(
         this.question.correct_answer
       );
-      console.log(this.randomizedAnswers);
     },
     checkAnswer(index: number) {
       this.stopTimer();
       if (index === this.correctIndex && !this.answered) {
+        this.selectedIndex = index;
         this.statistics(true);
         let points;
         if (this.timer > 12) this.addPoints(10);
@@ -84,7 +88,7 @@ export default Vue.extend({
         else if (this.timer >= 2) this.addPoints(3);
         else if (this.timer > 0) this.addPoints(1);
       } else if (!this.answered) {
-        console.log("NETOČNO");
+        this.selectedIndex = index;
         this.statistics(false);
       }
       this.answered = true;
@@ -92,7 +96,7 @@ export default Vue.extend({
     startTimer() {
       interval = window.setInterval(() => {
         if (this.timer > 0) this.timer--;
-        else this.next(true);
+        else this.checkAnswer(-1);
       }, 1000);
     },
     stopTimer() {

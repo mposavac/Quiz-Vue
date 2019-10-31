@@ -1,0 +1,184 @@
+.nav {
+  position: relative;
+  height: 5rem;
+  box-shadow: 0px -7px 20px 0px color(dark);
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  @include mobile {
+    flex-direction: row-reverse;
+  }
+  a.exit {
+    display: flex;
+    flex-direction: column;
+    color: color(dark);
+    font-size: 0.75rem;
+    opacity: 0.7;
+    text-decoration: none;
+    .fa-sign-out-alt {
+      transform: rotateY(180deg);
+      color: color(red);
+      font-size: 1.3rem;
+    }
+    @include mobile {
+      display: none;
+    }
+  }
+  img {
+    position: absolute;
+    right: 2rem;
+    top: 0rem;
+    height: 75px;
+    width: 75px;
+    @include mobile {
+      position: initial;
+    }
+  }
+  .timer-bar {
+    position: absolute;
+    content: '';
+    bottom: 0px;
+    left: 0;
+    height: 2px;
+    background: color(red2);
+    transition: 1s;
+  }
+  .lifes {
+    display: flex;
+    .fa-heart {
+      font-size: 1.2rem;
+      margin: 0.25rem;
+      transition: 1s;
+    }
+    .full-heart {
+      font-weight: 900;
+      color: color(green);
+    }
+    .lost-heart {
+      color: color(red2);
+    }
+  }
+}
+
+.main {
+  margin: auto;
+  margin-top: 2rem;
+  .question-box {
+    width: 500px;
+    height: 500px;
+    margin: auto;
+    border: color(red) 1px solid;
+    @include mobile {
+      height: unset;
+      width: 100%;
+      border: unset;
+    }
+    h4,
+    h3 {
+      margin-top: 0.5rem;
+      &.category {
+        display: inline-block;
+        padding-bottom: 0.25rem;
+        border-bottom: 1px color(green) solid;
+      }
+      &.question {
+        margin-right: 0.25rem;
+        margin-left: 0.25rem;
+      }
+    }
+    p.timer {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.5rem;
+      height: 40px;
+      width: 40px;
+      border: 1px color(red2) solid;
+      border-radius: 50%;
+    }
+    .answers-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      justify-content: center;
+      align-items: center;
+      @include mobile {
+        display: block;
+      }
+
+      div {
+        cursor: pointer;
+        justify-content: center;
+        align-items: center;
+        margin: 0.25rem;
+        display: flex;
+        background: color(dark);
+        color: color(green);
+        border-radius: 5px;
+        min-height: 75px;
+        transition: 0.25s;
+      }
+      div.correct {
+        background: color(green);
+        color: color(dark);
+      }
+      div.incorrect {
+        background: color(red2);
+        color: color(dark);
+      }
+    }
+    .btn {
+      padding: 0.5rem;
+      min-width: 75px;
+      margin: auto;
+      margin-top: 1.5rem;
+      border: color(green) 1px solid;
+      color: color(green);
+      background: color(dark);
+      border-radius: 10px;
+      outline: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition: 0.5s;
+      &.disabled {
+        opacity: 0.1;
+      }
+    }
+  }
+
+  p.start {
+    //MALO BOLJI STYLE
+    padding: 0.5rem;
+    font-size: 3rem;
+    letter-spacing: 10px;
+    margin-top: 10rem;
+    color: color(green);
+    border-radius: 2px;
+    cursor: pointer;
+    animation: fadeIn 0.5s ease-out forwards;
+    transition: 0.5s;
+    &:hover {
+      letter-spacing: 14px;
+      transform: scale(1.1);
+    }
+  }
+}
+p.game-over {
+  padding: 0.5rem;
+  font-size: 3rem;
+  letter-spacing: 10px;
+  margin-top: 25%;
+  color: color(red);
+  border-radius: 2px;
+  animation: fadeIn 0.75s ease-out forwards;
+  transition: 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

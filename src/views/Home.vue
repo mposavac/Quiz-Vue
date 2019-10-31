@@ -1,18 +1,32 @@
 <template>
   <div class="home">
-    <div>QUIZ LOGO</div>
-    <form @submit.prevent="submit" class="form">
-      <Selection :disabled="isLoading" :options="time" v-model="chosenTime" />
-      <Selection :disabled="isLoading" :options="categories" v-model="chosenCategory" />
-      <Selection :disabled="isLoading" :options="difficulty" v-model="chosenDifficulty" />
-      <button :disabled="isLoading" @click="randomPick">RANDOM</button>
-      <button :disabled="isLoading" type="submit">PLAY</button>
+    <div>
+      <img src="../assets/logo.png" draggable="false" alt="logoImg" />
+    </div>
+    <form @submit.prevent="submit">
+      <div class="form-flex">
+        <div class="form-content-flex">
+          <p>Choose time:</p>
+          <p>Choose category:</p>
+          <p>Choose difficulty:</p>
+        </div>
+        <div class="form-content-flex">
+          <Selection :disabled="isLoading" :options="time" v-model="chosenTime" />
+          <Selection :disabled="isLoading" :options="categories" v-model="chosenCategory" />
+          <Selection :disabled="isLoading" :options="difficulty" v-model="chosenDifficulty" />
+        </div>
+      </div>
+      <div>
+        <button class="btn" :disabled="isLoading" @click="randomPick">RANDOM</button>
+        <button class="btn" :disabled="isLoading" type="submit">PLAY</button>
+      </div>
     </form>
     <Spinner v-if="isLoading" />
   </div>
 </template>
 
 <script>
+import "../style/index.scss";
 import Selection from "@/components/Selection.vue";
 import Spinner from "@/components/Spinner.vue";
 import { mapActions, mapState } from "vuex";
@@ -25,10 +39,10 @@ export default {
   data() {
     return {
       time: [
-        { name: 60, value: 60 },
-        { name: 90, value: 90 },
-        { name: 120, value: 120 },
-        { name: 180, value: 180 }
+        { name: "60 seconds", value: 60 },
+        { name: "90 seconds", value: 90 },
+        { name: "120 seconds", value: 120 },
+        { name: "180 seconds", value: 180 }
       ],
       categories: [
         { name: "Any Category", value: "" },
