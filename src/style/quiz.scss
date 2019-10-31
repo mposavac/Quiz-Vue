@@ -59,10 +59,17 @@
     }
   }
 }
-
+main {
+  @include mobile {
+    height: 100vh;
+  }
+}
 .main {
   margin: auto;
   margin-top: 2rem;
+  @include mobile {
+    margin-top: 1rem;
+  }
   .question-box {
     width: 500px;
     height: 500px;
@@ -115,6 +122,9 @@
         border-radius: 5px;
         min-height: 75px;
         transition: 0.25s;
+        @include mobile {
+          min-height: 60px;
+        }
       }
       div.correct {
         background: color(green);
