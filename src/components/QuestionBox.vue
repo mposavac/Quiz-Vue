@@ -2,8 +2,8 @@
   <div>
     <div class="question-box">
       <h4 class="category">{{question.category}}</h4>
-      <h3 class="question">{{question.question}}</h3>
       <p class="timer">{{timer}}</p>
+      <h3 class="question">{{question.question}}</h3>
       <div class="answers-container">
         <div
           @click="checkAnswer(index)"

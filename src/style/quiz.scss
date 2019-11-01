@@ -15,9 +15,8 @@
     font-size: 0.75rem;
     opacity: 0.7;
     text-decoration: none;
-    .fa-sign-out-alt {
-      transform: rotateY(180deg);
-      color: color(red);
+    .fa-arrow-left {
+      color: color(dark);
       font-size: 1.3rem;
     }
     @include mobile {
@@ -71,10 +70,9 @@ main {
     margin-top: 1rem;
   }
   .question-box {
-    width: 500px;
+    width: 700px;
     height: 500px;
     margin: auto;
-    border: color(red) 1px solid;
     @include mobile {
       height: unset;
       width: 100%;
@@ -89,13 +87,14 @@ main {
         border-bottom: 1px color(green) solid;
       }
       &.question {
-        margin-right: 0.25rem;
-        margin-left: 0.25rem;
+        margin: 1.5rem 0.25rem;
+        @include mobile {
+          margin: 0.5rem 0.25rem 0 0.25rem;
+        }
       }
     }
     p.timer {
-      display: inline-block;
-      margin: 0.5rem;
+      margin: 1rem auto 0rem auto;
       padding: 0.5rem;
       height: 40px;
       width: 40px;
@@ -115,6 +114,7 @@ main {
         cursor: pointer;
         justify-content: center;
         align-items: center;
+        padding: 0 0.25rem;
         margin: 0.25rem;
         display: flex;
         background: color(dark);
@@ -155,31 +155,135 @@ main {
   }
 
   p.start {
-    //MALO BOLJI STYLE
     padding: 0.5rem;
     font-size: 3rem;
-    letter-spacing: 10px;
+    font-weight: 600;
+    letter-spacing: 14px;
     margin-top: 10rem;
     color: color(green);
     border-radius: 2px;
     cursor: pointer;
-    animation: fadeIn 0.5s ease-out forwards;
+    animation: fadeIn 0.75s ease-out forwards;
     transition: 0.5s;
     &:hover {
-      letter-spacing: 14px;
+      letter-spacing: 18px;
       transform: scale(1.1);
     }
   }
 }
 p.game-over {
   padding: 0.5rem;
-  font-size: 3rem;
+  font-size: 2.5rem;
   letter-spacing: 10px;
-  margin-top: 25%;
+  margin-top: 25vh;
   color: color(red);
   border-radius: 2px;
-  animation: fadeIn 0.75s ease-out forwards;
+  @include mobile {
+    letter-spacing: 8px;
+  }
+  animation: fadeIn 0.75s ease-out forwards, climb 1s ease forwards;
+  animation-delay: 0s, 1.5s;
   transition: 0.5s;
+}
+.submit {
+  padding-top: 1rem;
+  min-height: 180px;
+  max-height: 70vh;
+  overflow: hidden;
+  form.submit-form,
+  .highscores {
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  form.submit-form {
+    margin: auto;
+    padding: 1rem;
+    width: 300px;
+    box-shadow: 0px 0px 20px 0px color(green);
+    .input-container {
+      position: relative;
+      width: 100%;
+      margin-top: 0.5rem;
+      label {
+        position: absolute;
+        left: 0%;
+        top: 0;
+        transform: translateX(100%);
+        animation: 0.5s slideOutLabel ease forwards;
+        animation-delay: 3s;
+      }
+      input {
+        border: none;
+        border-bottom: rgba(color(dark), 0.5) 1px solid;
+        outline: none;
+        width: 100%;
+        animation: 0.5s slideInInput ease forwards;
+        animation-delay: 3s;
+      }
+      @keyframes slideOutLabel {
+        from {
+          transform: translateX(100%);
+        }
+        to {
+          transform: translateX(0%);
+        }
+      }
+      @keyframes slideInInput {
+        from {
+          margin-left: 0%;
+          width: 100%;
+        }
+        to {
+          width: 65%;
+          margin-left: 35%;
+        }
+      }
+    }
+    p {
+      margin: 0.5rem auto;
+    }
+    .btn {
+      position: relative;
+      padding: 0.5rem;
+      margin: 0.5rem auto;
+      border: color(green) 1px solid;
+      color: color(green);
+      background: color(dark);
+      border-radius: 4px;
+      outline: none;
+      cursor: pointer;
+      z-index: 0;
+      transition: 0.5s;
+      width: 100%;
+      overflow: hidden;
+    }
+  }
+  .highscores {
+    width: 250px;
+    div.user {
+      display: flex;
+      h4 {
+        color: color(dark);
+        border-bottom: 1px solid color(green);
+      }
+      p {
+        margin: 0.25rem;
+      }
+      .names {
+        text-align: right;
+        p {
+          font-size: 0.9rem;
+        }
+      }
+      .points p {
+        font-size: 0.75rem;
+        margin: calc(0.25rem + 3px);
+      }
+    }
+  }
 }
 
 @keyframes fadeIn {
@@ -190,5 +294,15 @@ p.game-over {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+@keyframes climb {
+  from {
+    margin-top: 25vh;
+    font-size: 2.5rem;
+  }
+  to {
+    margin-top: 5vh;
+    font-size: 2.3rem;
   }
 }

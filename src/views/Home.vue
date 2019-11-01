@@ -21,7 +21,9 @@
         <button class="btn" :disabled="isLoading" type="submit">PLAY</button>
       </div>
     </form>
-    <Spinner v-if="isLoading" />
+    <transition name="spinnerFade" mode="out-in">
+      <Spinner v-if="isLoading" />
+    </transition>
   </div>
 </template>
 

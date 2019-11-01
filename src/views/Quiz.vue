@@ -2,7 +2,8 @@
   <main>
     <div class="nav">
       <router-link class="exit" to="/">
-        <i class="fas fa-sign-out-alt" />Exit
+        <i class="fas fa-arrow-left"></i>
+        Exit
       </router-link>
       <p class="timer">{{formatTimer()}}</p>
       <p class="num-of-questions">{{correctAnswers}} / {{totalQuestions}}</p>
@@ -29,22 +30,27 @@
         :next="next"
         :statistics="statistics"
       />
-      <p class="game-over" v-else>GAME OVER</p>
+      <p v-else class="game-over">GAME OVER</p>
     </div>
     <p v-else class="game-over">Plsese choose difrent options</p>
+    <transition name="formfade" mode="out-in">
+      <SubmitForm v-if="lifes===0" :time="time" />
+    </transition>
   </main>
 </template>
 
 <script lang="ts">
 let interval;
 import Vue from "vue";
-import QuestionBox from "../components/QuestionBox.vue";
 import { mapState } from "vuex";
+import QuestionBox from "../components/QuestionBox.vue";
+import SubmitForm from "../components/SubmitForm.vue";
 export default Vue.extend({
   name: "quiz",
   props: ["category", "time"],
   components: {
-    QuestionBox
+    QuestionBox,
+    SubmitForm
   },
   data() {
     return {
@@ -64,13 +70,23 @@ export default Vue.extend({
     wrongAnswers: {
       immediate: true,
       handler() {
-        if (this.wrongAnswers === 3) this.stopTimer();
+        if (this.wrongAnswers === 3) {
+          this.stopTimer();
+        }
       }
     }
   },
   methods: {
-    next(param?: boolean) {
+    next() {
       this.index++;
+    },
+    statistics(correctAnswer: boolean) {
+      this.totalQuestions++;
+      if (correctAnswer) this.correctAnswers++;
+      else {
+        this.lifes--;
+        this.wrongAnswers++;
+      }
     },
     startTimer() {
       this.started = true;
@@ -82,14 +98,6 @@ export default Vue.extend({
     stopTimer() {
       interval = null;
       this.timer = 0;
-    },
-    statistics(correctAnswer: boolean) {
-      this.totalQuestions++;
-      if (correctAnswer) this.correctAnswers++;
-      else {
-        this.lifes--;
-        this.wrongAnswers++;
-      }
     },
     formatTimer() {
       if (this.timer >= 60)
