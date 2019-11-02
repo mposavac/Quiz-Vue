@@ -25,7 +25,7 @@
       </router-link>
       <div class="timer-bar" :style="{width: ((timer/time)*100 )+'%'}"></div>
     </div>
-    <div v-if="questions.length>0" class="main">
+    <div v-if="questions.length>0 && totalQuestions<20" class="main">
       <p class="start" v-if="!started && timer>0" @click="startTimer">START</p>
       <QuestionBox
         v-else-if="started && timer>0 && lifes>0"
@@ -36,7 +36,7 @@
       />
       <p v-else class="game-over">GAME OVER</p>
     </div>
-    <p v-else class="game-over">Plsese choose difrent options</p>
+    <p v-else class="game-over">Please choose another difficulty or category</p>
     <transition name="formfade" mode="out-in">
       <SubmitForm v-if="lifes===0" :time="time" />
     </transition>
@@ -46,7 +46,7 @@
 <script>
 let interval;
 import Vue from "vue";
-import { mapState } from "vuex";
+import { mapState, mapActions } from "vuex";
 import QuestionBox from "../components/QuestionBox.vue";
 import SubmitForm from "../components/SubmitForm.vue";
 export default {
@@ -78,9 +78,19 @@ export default {
           this.stopTimer();
         }
       }
+    },
+    totalQuestions: {
+      immediate: true,
+      handler() {
+        if (this.totalQuestions === 20) {
+          this.addPoints(this.timer + this.lifes);
+          this.stopTimer();
+        }
+      }
     }
   },
   methods: {
+    ...mapActions(["addPoints"]),
     next() {
       this.index++;
     },

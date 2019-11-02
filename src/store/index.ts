@@ -22,7 +22,6 @@ export default new Vuex.Store({
       commit('addQuestions', questions);
     },
     addPoints: ({ commit }, points) => {
-      console.log(points);
       commit('addPoints', points);
     }
   },

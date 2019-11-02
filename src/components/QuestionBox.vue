@@ -81,11 +81,15 @@ export default {
         this.selectedIndex = index;
         this.statistics(true);
         let points;
-        if (this.timer > 12) this.addPoints(10);
-        else if (this.timer > 8) this.addPoints(7);
-        else if (this.timer > 4) this.addPoints(5);
-        else if (this.timer >= 2) this.addPoints(3);
-        else if (this.timer > 0) this.addPoints(1);
+        let multipler = 1;
+        if (this.question.difficulty === "medium") multipler = 2;
+        if (this.question.difficulty === "hard") multipler = 3;
+
+        if (this.timer > 11) this.addPoints(10 * multipler);
+        else if (this.timer > 8) this.addPoints(7 * multipler);
+        else if (this.timer > 4) this.addPoints(5 * multipler);
+        else if (this.timer >= 2) this.addPoints(3 * multipler);
+        else if (this.timer > 0) this.addPoints(1 * multipler);
       } else if (!this.answered) {
         this.selectedIndex = index;
         this.statistics(false);

@@ -183,7 +183,7 @@ p.game-over {
   color: color(red);
   border-radius: 2px;
   @include mobile {
-    letter-spacing: 8px;
+    letter-spacing: 6px;
   }
   animation: fadeIn 0.75s ease-out forwards, climb 1s ease forwards;
   animation-delay: 0s, 1.5s;
