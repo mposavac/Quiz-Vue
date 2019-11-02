@@ -19,12 +19,11 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 let interval;
-import Vue from "vue";
 import { mapActions } from "vuex";
 import _ from "lodash";
-export default Vue.extend({
+export default {
   props: {
     question: Object,
     next: Function,
@@ -54,7 +53,7 @@ export default Vue.extend({
   },
   computed: {
     answers() {
-      let answers: Array<string> = [...this.question.incorrect_answers];
+      let answers = [...this.question.incorrect_answers];
       answers.push(this.question.correct_answer);
       return answers;
     }
@@ -64,7 +63,7 @@ export default Vue.extend({
   },
   methods: {
     ...mapActions(["addPoints"]),
-    answerClass(index: number): string {
+    answerClass(index) {
       if (this.answered && this.correctIndex === index) return "correct";
       else if (this.answered && this.selectedIndex === index)
         return "incorrect";
@@ -76,7 +75,7 @@ export default Vue.extend({
         this.question.correct_answer
       );
     },
-    checkAnswer(index: number) {
+    checkAnswer(index) {
       this.stopTimer();
       if (index === this.correctIndex && !this.answered) {
         this.selectedIndex = index;
@@ -104,8 +103,5 @@ export default Vue.extend({
       interval = null;
     }
   }
-});
+};
 </script>
-
-<style lang="scss" scoped>
-</style>

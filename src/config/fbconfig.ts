@@ -1,4 +1,5 @@
 import firebase from 'firebase/app';
+import 'firebase/analytics';
 import 'firebase/firestore';
 
 firebase.initializeApp({
@@ -11,4 +12,6 @@ firebase.initializeApp({
   appId: '1:228511997776:web:9711000896a5fa6bba9655',
   measurementId: 'G-G7XMB33R98'
 });
+firebase.analytics();
+
 export const fb = firebase.firestore();

@@ -44,17 +44,21 @@
   }
   .lifes {
     display: flex;
-    .fa-heart {
-      font-size: 1.2rem;
-      margin: 0.25rem;
-      transition: 1s;
-    }
-    .full-heart {
-      font-weight: 900;
-      color: color(green);
-    }
-    .lost-heart {
-      color: color(red2);
+    width: 81.76px;
+    div {
+      display: flex;
+      .fa-heart {
+        font-size: 1.2rem;
+        margin: 0.25rem;
+        transition: 1s;
+      }
+      .full-heart {
+        font-weight: 900;
+        color: color(green);
+      }
+      .lost-heart {
+        color: color(red2);
+      }
     }
   }
 }
@@ -202,7 +206,7 @@ p.game-over {
     margin: auto;
     padding: 1rem;
     width: 300px;
-    box-shadow: 0px 0px 20px 0px color(green);
+    box-shadow: 0px 0px 10px 0px color(green);
     .input-container {
       position: relative;
       width: 100%;

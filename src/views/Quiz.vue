@@ -9,12 +9,16 @@
       <p class="num-of-questions">{{correctAnswers}} / {{totalQuestions}}</p>
       <p class="points">{{points}} points</p>
       <div class="lifes">
-        <div v-for="life in lifes" :key="life">
-          <i class="full-heart far fa-heart" />
-        </div>
-        <div v-for="wrong in wrongAnswers" :key="wrong*6">
-          <i class="lost-heart far fa-heart" />
-        </div>
+        <transition-group name="lifeIn" tag="div">
+          <div v-for="life in lifes" :key="life">
+            <i class="full-heart far fa-heart" />
+          </div>
+        </transition-group>
+        <transition-group name="lifeOut" tag="div">
+          <div v-for="wrong in wrongAnswers" :key="wrong*6">
+            <i class="lost-heart far fa-heart" />
+          </div>
+        </transition-group>
       </div>
       <router-link to="/">
         <img src="../assets/logo.png" draggable="false" alt="logoImg" />
@@ -39,13 +43,13 @@
   </main>
 </template>
 
-<script lang="ts">
+<script>
 let interval;
 import Vue from "vue";
 import { mapState } from "vuex";
 import QuestionBox from "../components/QuestionBox.vue";
 import SubmitForm from "../components/SubmitForm.vue";
-export default Vue.extend({
+export default {
   name: "quiz",
   props: ["category", "time"],
   components: {
@@ -80,7 +84,7 @@ export default Vue.extend({
     next() {
       this.index++;
     },
-    statistics(correctAnswer: boolean) {
+    statistics(correctAnswer) {
       this.totalQuestions++;
       if (correctAnswer) this.correctAnswers++;
       else {
@@ -97,6 +101,8 @@ export default Vue.extend({
     },
     stopTimer() {
       interval = null;
+      this.lifes = 0;
+      this.wrongAnswers = 3;
       this.timer = 0;
     },
     formatTimer() {
@@ -108,5 +114,5 @@ export default Vue.extend({
       return "0:" + this.timer;
     }
   }
-});
+};
 </script>

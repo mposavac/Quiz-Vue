@@ -1,0 +1,55 @@
+/*TRANSITIONS*/
+.fade-enter-active,
+.fade-leave-active {
+  transition: 0.3s ease;
+  transition-property: opacity, transform;
+}
+.spinnerFade-enter-active,
+.spinnerFade-leave-active {
+  transition: 0.5s ease;
+  transition-property: opacity;
+}
+.formfade-enter-active,
+.formfade-leave-active {
+  transition: 1s ease;
+  transition-property: opacity, transform;
+}
+.formfade-enter-active {
+  transition-delay: 1.5s;
+}
+
+.lifeIn-enter-active,
+.lifeIn-leave-active,
+.lifeOut-enter-active {
+  transition: 0.5s ease;
+  transition-property: opacity, transform;
+}
+.lifeOut-enter-active {
+  transition-delay: 0.51s;
+}
+
+.fade-enter,
+.fade-leave-active,
+.spinnerFade-enter,
+.spinnerFade-leave-active,
+.formfade-enter,
+.formfade-leave-active,
+.lifeIn-enter,
+.lifeIn-leave-active,
+.lifeOut-enter,
+.lifeOut-leave-active {
+  opacity: 0;
+}
+.fade-enter {
+  transform: translateX(-100%);
+}
+.fade-leave-active {
+  transform: translateX(100%);
+}
+.formfade-enter,
+.lifeIn-leave-active {
+  transform: translateY(100%);
+}
+.formfade-leave-active {
+  transform: translateY(-200%);
+}

@@ -31,11 +31,10 @@
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script>
 import { mapState } from "vuex";
 import { fb } from "../config/fbconfig";
-export default Vue.extend({
+export default {
   props: ["time"],
   data() {
     return {
@@ -49,10 +48,12 @@ export default Vue.extend({
   },
   methods: {
     async submitScore() {
-      await fb.collection(`highScores${this.time}`).add({
-        userName: this.userName,
-        points: this.points
-      });
+      if (this.points > 0) {
+        await fb.collection(`highScores${this.time}`).add({
+          userName: this.userName,
+          points: this.points
+        });
+      }
       this.submited = true;
       this.getHighScores();
     },
@@ -66,5 +67,5 @@ export default Vue.extend({
       this.highScoreUsers = users;
     }
   }
-});
+};
 </script>
