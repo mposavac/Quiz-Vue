@@ -1,6 +1,7 @@
 # Quiz
 
 #### Take the quiz *[HERE](https://vue-quiz-4024b.firebaseapp.com/ "QuizApp")*.
+- This project is made in [Vue.js](https://vuejs.org/)
 
 ![homescreen](https://user-images.githubusercontent.com/49268926/68070079-91bd3380-fd69-11e9-8d75-855cd5889789.JPG)
 
